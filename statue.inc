@@ -1,0 +1,196 @@
+#include "colors.inc" 
+#declare statue = union{
+
+sphere {				//head of the picture
+	<0,12,0>
+	3.5                                        
+		texture{
+			pigment{
+				Red
+		}
+		}
+}    
+  
+cylinder{
+		<0,-6,0>      //base point
+		<0,12,0>      //cap point
+		.5//radius
+			texture{
+				pigment{
+					Yellow
+					}
+				}
+}  
+
+torus{
+	 5               
+.9                    
+		texture{
+			pigment{
+			rgb<1,.75,.5>
+				}
+			}
+}
+
+sphere{
+	<0,-4,0>         //center of sphere
+	.9               //radius of the sphere
+		texture{
+			pigment{
+				Red}
+				}
+}			
+
+
+sphere{
+	<0,-2.4,0>
+	.9
+		texture{
+			pigment{
+				Red
+				} 
+			}
+}
+
+
+sphere{
+	<0,-5.6,0>			
+	.9				
+		texture{
+			pigment{
+				Red}
+		} 
+} 
+
+
+cone{
+	<0,-12,0>			
+	6//base point radius  
+	<0,-6,0>			 
+	0//cap point radius
+		texture{
+			pigment{
+				rgb<1,0,1>
+				}
+			}
+		}
+
+cone{
+	<0,-18,0>
+	0
+	<0,-6,0>
+	6
+		texture{
+			pigment{
+			Blue
+				}
+			}
+	}
+
+torus{
+	8//major radius
+	.2//minor radius
+		texture{
+			pigment{
+				rgb<1,.75,.5>
+				}
+			}	
+}     
+
+torus{    
+	5//major radius
+	.3//minor radius
+		rotate <0,0,60>
+		scale<4,1,0>
+}
+
+torus{
+	5//major radius
+	.3//minor radius
+	rotate<0,0,-60> 
+	scale<4,1,0>
+}   
+
+
+cylinder{
+	<0,-20>,<0,5,0>
+	3
+		texture{
+		pigment{
+		rgb<1.5,1,0.9>
+			}      
+}
+}
+    
+sphere{			//bottomleft sphere
+	<-2,-20,-2>
+	4
+		texture{
+		pigment{
+		rgb <.6,0,.7>
+			}
+			}
+}    
+   
+	
+sphere{			//bottomright sphere
+	<2,-20,-2>
+	4
+		texture{
+		pigment{
+		rgb <.6,0,0.7>
+			}
+			}
+} 
+
+cone{
+	<0,-29,-2>
+	1
+	<0,-26,-2>
+	0
+		texture{
+		pigment{
+			Magenta
+			}
+			}
+}
+
+cylinder{
+	<4,0,0>
+	<4,10,0>  
+	.4
+		rotate <0,0,90>
+		translate <5,3,0>
+		texture{
+			pigment{
+				Green
+				}
+			}
+}    
+  
+cone{				///hat of the abstract picture
+	<0,5,0>
+	3
+	<0,8,0>
+	0  
+	translate <0,9,0>
+		texture{
+			pigment{
+				rgb <0,1,.2>
+				}
+			}
+}
+
+sphere{			//mouth of the abstract picture
+	<0,3,-2>
+	1
+		translate <0,7,0>
+			texture{
+pigment{
+					rgb <0,1,1>
+					}
+				}
+}
+}
+     
+

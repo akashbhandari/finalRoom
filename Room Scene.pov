@@ -1,0 +1,702 @@
+#include "RoomTextures"   
+#include "colors.inc"  
+#include "textures.inc"
+ include "table.inc" 
+ include "bowl.inc"
+ include "chair.inc" 
+ include "closet.inc" 
+ include "Bed.inc" 
+ include "Lamp.inc"    
+ include "BookShelf" 
+ include "flute.inc" 
+ include "statue.inc"  
+ include "bookCollection.inc"  
+ include "laptop.inc"  
+ include "chalGame.inc"
+
+
+
+background{
+         rgb<1,1,1>
+}    
+
+#declare RoomLength = 460;
+#declare RoomHeight = 290;  
+#declare RoomWidth = 430; 
+
+#declare HalfRoomLength = RoomLength/2; 
+#declare HalfRoomHeight = RoomHeight/2; 
+#declare HalfRoomWidth = RoomWidth/2;
+                                        
+                                       
+#declare AKHeight = 200;
+#declare AKPos = <HalfRoomLength,HalfRoomHeight,30>;
+#declare TablePos = <HalfRoomLength,HalfRoomHeight,RoomWidth-10>;     
+#declare OutsideCam = <-HalfRoomLength,-HalfRoomHeight,0>;
+
+//.........Cameras............
+  
+
+camera{
+         location AKPos
+         look_at TablePos
+}
+
+
+#declare LampCam= camera{                 //focusing at the lamp, depth of field
+                           perspective
+                           location <150,135,480>
+                           look_at  <200,0,300> 
+                           angle 90
+                           focal_point <200,0,300>
+                           aperture .4
+                           blur_samples 40
+}
+
+ 
+                               //looking at the door from a distance
+#declare DoorView =
+         camera{
+                  location <10,50,-500> 
+                  look_at  <-50,0,0> 
+                  angle 60 
+} 
+
+
+#declare WindowView =          //looking from the windows
+         camera{ 
+                  location <150,250,800>
+                  look_at  <200,0,0>
+} 
+ 
+#declare ClosetCamera =        // looking at the Closet, bed and statue from the ceiling
+         camera{ 
+	         location <100,280,280>
+	         look_at <540,-130,190>
+}
+  
+
+#declare FarSideCamera =     //far away from the door
+         camera{  
+	         location<90,170,570>
+	         look_at <150,145,420>   
+	         angle 90
+}
+ 
+#declare CornerCamera =       //corner view from UpperAKPos     
+         camera{            
+                  location <HalfRoomLength+200,280,5>
+                  look_at <110,80,420>
+}   
+
+#declare BedCamera =          //looking at the bed
+         camera{                
+                  location <HalfRoomLength+40,270,5>
+                  look_at <290,90,420>
+}    
+
+#declare BeatlesCamera =     //Looking at the Beatles     
+         camera{            
+                  location <RoomLength-10,HalfRoomWidth+30,50>
+                  look_at <-400,0,420>
+}    
+                 
+                   
+#declare MirrorCamera =     //looking at the mirror and the shelf
+         camera{   
+                  location <150,200,498>
+                  look_at  <200,0,0>
+}          
+
+#declare HawkEyesCamera =   //long hawk view
+         camera{      
+                  location <HalfRoomWidth,120,100>
+                  look_at <200,145,420>
+                  angle 160
+} 
+
+
+#declare AllObjectCamera =  //camera in front of the windows that shows most of the objects
+         camera {                    
+                  location <200,210,940> 
+                  look_at  <270,20,0> 
+                  angle 60 
+}
+
+#declare SideAngleCam =     //looking in a side angle view, final room camera position
+         camera{
+                  location <1,123,305>
+                  look_at <240,43,240>
+}
+
+//camera{
+//LampCam} 
+
+//camera{                              
+//       DoorView
+//} 
+ 
+
+//camera{
+//        WindowView
+//}
+
+//camera{    
+//      FarSideCamera
+//}  
+
+//camera{
+//    CornerCamera
+//}
+ 
+//camera{            // to look at the bed and the table
+//       BedCamera
+//} 
+
+//camera{
+//      BeatlesCamera
+//}
+
+//camera{
+//       ClosetCamera
+//} 
+
+//camera{
+//       MirrorCamera
+//}
+
+//camera{
+//         AllObjectCamera
+//} 
+
+//camera{
+//       HawkEyesCamera
+//}
+
+camera{
+SideAngleCam
+}
+  
+
+//...........Light Sources.......
+
+//When all lights are closed, lamp glows      
+ 
+
+light_source{                       //from the door
+         <0,0,-1900>
+         color White
+         area_light <250, 0, 0>, <100, 50, 5>, 5, 5
+         adaptive 3
+         jitter 
+}
+
+
+light_source{                      //from the window
+         <0,60,1900>                                    
+         rgb<1,1,1>*1.2                  
+}            
+
+light_source{                     // spotight pointing towards beatles poster
+         AKPos
+                  color White*2
+                  spotlight 
+                  radius 110
+                  falloff 20
+                  tightness 0 
+                  //shadowless  
+         point_at <10, 150, 235>
+} 
+  
+ light_source{                    // pointing towards the bed
+         <40,150,RoomHeight-30>
+                  color White
+                  spotlight
+                  radius 600
+                  falloff 15
+                  tightness 10
+         point_at <390,60,240>  
+         }                           
+         
+ 
+///.........For the background atmosphere............... 
+/*
+
+plane{
+         <0,1,0>,0 
+      
+         texture{ pigment {color rgb<0.1,0.3,0.75>*0.7}
+         #if (version = 3.7 )  finish {emission 1 diffuse 0}
+         #else finish { ambient 1 diffuse 0}
+         #end 
+} // texture 1   
+  
+texture{ 
+         pigment{ 
+                  bozo turbulence 0.75        // ground fog at the horizon
+         color_map {
+                  [0.0  color rgb <0.95, 0.95, 0.95> ]
+                  [0.05  color rgb <1, 1, 1>*1.25 ]
+                  [0.15 color rgb <0.85, 0.85, 0.85> ]
+                  [0.55 color rgbt <1, 1, 1, 1>*1 ]
+                  [1.0 color rgbt <1, 1, 1, 1>*1 ]
+                  } 
+               } 
+                  #if (version = 3.7 ) 
+                  finish {emission 1 diffuse 0}
+                  #else                 
+                  finish { ambient 1 diffuse 0}
+                  #end 
+               } //  texture 2
+                   scale 10000
+}  
+*/ 
+
+fog{
+          fog_type 2.7               //ground
+          distance  900
+          color  rgb<1,1,1>*0.9
+          fog_offset 0.1
+          fog_alt    20
+          turbulence 1.8
+} 
+ 
+plane{                            //backgroundFloor
+         <0,1,0>, 0 
+                  texture{ 
+                           pigment{color rgb<0.35,0.65,0.0>*0.8}
+                           normal {bumps 0.75 scale 0.015}
+                           finish {ambient 0.1 diffuse 0.8}
+                         } 
+} 
+
+
+//......................END................
+  
+#declare Window = 
+         box{
+                  <HalfRoomLength,HalfRoomHeight,HalfRoomWidth>
+                  <RoomLength-50,RoomHeight,RoomWidth+20>
+ 
+}; 
+
+#declare Door = 
+         box{
+                  <0,0,-10>
+                  <75,180,10>
+}; 
+
+  
+#declare Room = 
+         box{
+                  <0,0,0>
+                  <RoomLength,RoomHeight,RoomWidth>  
+};  
+ 
+#declare Floor = 
+         box{   //floor
+                   <0,0.1,0>
+                  <RoomLength,1,RoomWidth>  
+                           pigment{
+                                    image_map {"carpet.jpg"}
+                                    scale 2.1
+                                    } 
+};
+ 
+#declare Poster = 
+         box{
+                  <0,0,0>
+                  <6,10,0>
+}; 
+
+#declare BedSheets = 
+         box{
+                  <1,0,1>
+                  <4,0.1,0>
+}; 
+
+#declare TrashCan = 
+         cone {
+	         <0,0,0>, 2.8  
+                  <0, 3,0>, 1.8
+                           texture{
+	                  pigment{
+		                  color rgb<0.84,0.95 ,1>
+		                  }     
+		         normal { bumps 0.18 scale 0.2 }
+                           finish { phong 1 }
+                                    }
+
+};  
+
+#declare statueStand =            //statue rests on this stand
+	box{
+	         <0,0,0>
+	         <3,0.7,2>
+	                  texture{
+	                  pigment{ 
+	                           color Red
+	                           }
+	                          }
+};  
+ 
+                                        
+#declare Poster =                     //used for mirror and two poster
+          box{
+                  <0,0,0>
+                   <6,10,0>
+}; 
+
+//......Mirror...........  
+
+#declare MirrorSide =                 //Sides of mirror
+         union{ 
+
+                  #declare MirrorSideways=box{
+                           <0,0,0>
+                           <30,4,0> 
+                           };
+                           
+                                    
+
+                           object{
+                                    MirrorSideways
+                                    rotate <0,180,0>
+                                    scale 2
+                                    translate<200,50,2> }
+
+                           object{
+                                    MirrorSideways
+                                    rotate <0,180,0>
+                                    scale 2
+                                    translate<200,145,2> } 
+
+                           object{
+                                    MirrorSideways
+                                    rotate <0,0,90>
+                                    scale 3.39
+                                    translate<210,50,2> } 
+
+                           object{
+                                    MirrorSideways
+                                    rotate <0,0,90>
+                                    scale 3.39
+                                    translate<146,50,2> }   
+};
+
+
+object{                            //Sides of mirror
+         MirrorSide
+                  translate <40,0,-0.98> 
+                           pigment{
+                           image_map {"sidetex.jpg"}
+                            }
+}
+
+object{                            //MirrorGlass
+         Poster
+                  rotate <0,180,0>
+                  scale 10
+                  translate<236,50,1>           
+                           texture{
+                           pigment { Gray }
+                           finish {
+                           ambient .2
+                           diffuse .1
+                           specular .75
+                           roughness .001
+                           reflection {0.8}
+                           metallic
+                           }
+                           } 
+}
+
+
+
+//...........END........  
+
+
+ ////....Difference starts....      
+       
+              
+         
+difference{                               
+ 
+         object{
+                  Room  
+                           texture{     
+                           pigment{ 
+                                    //image_map {"houseTex.jpg"} 
+                                    color rgb <0,0.10,0.10>
+                           }
+                           } 
+         }         
+          
+                          
+         object{
+                  Room
+                  scale 0.99     
+                           texture{
+                           pigment{ 
+                                    color rgb<0,0.10,0.10>  
+                           }
+                           }   
+                           
+         } 
+ 
+         object{
+                  Window 
+                           translate <-210,-70,0>     
+         }
+
+ 
+         object{
+                  Window 
+                           translate <10,-70,0>
+         }
+ 
+ 
+         object{
+                  Door
+                           translate <30,1,0> 
+         }
+
+         texture{   //room color
+
+                  pigment{
+                           rgb<1,1,1>
+                           }
+         }
+
+}
+/////Difference Ends.......
+
+object{   //Floor
+         Floor 
+} 
+
+object{
+         Table
+                  rotate<0,0,0> 
+                  translate<80,30,300>
+                  scale <0,1.8,0>
+}    
+
+ 
+object{
+         bowl
+                  scale 5 
+                  translate <57,69,315>        
+}   
+ 
+object{
+         WholeChair
+                  translate<90,0,260>
+} 
+
+  
+object{                 //beatlesPoster
+         Poster
+         scale 10
+         rotate <0,90,0>
+         translate <1,100,320>
+                  pigment{ 
+                           image_map {"beatles.jpg"}
+                           rotate <0,90,0> 
+                           scale 80
+                           translate <40,27,6>
+                            }
+} 
+
+object{    //Naruto      //second image. naruto image
+         Poster
+         scale 10
+         rotate <0,90,0>
+         translate <455,100,320>
+                  pigment{ 
+                           image_map {"naruto.jpg"}
+                           rotate <0,90,0> 
+                           scale 65
+                           scale <0,1.8,0>
+                           translate <40,85,61>
+                            } 
+} 
+ 
+object{      //Shelf
+         BookShelf  
+                  texture{
+                           pigment{DMFWood3}
+                  }                  
+                  rotate <0,90,180>  
+                  scale 12
+                  translate <140,71,145>  
+                           finish{    
+                           roughness 0.75
+                           specular .02
+                  }
+} 
+
+object{
+         Bed
+                  rotate <0,0,0>
+                  scale 5.8
+                  scale<0,0,1.4>
+                  translate <385,57,230>
+}
+  
+
+object{   //BedSheets
+         BedSheets 
+                  rotate<180,90,0> 
+                  scale 50  
+                  scale <1.65,1,0>
+                  translate <429,65,445> 
+                  pigment{
+                           image_map {"PokemonSheets.jpg"}  
+                  rotate <90,90,0> 
+                  scale 77.6
+                  translate <40,27,6>  
+                           } 
+                           finish{ambient 0.4}
+}  
+
+object{
+         TrashCan  
+                  rotate <0,0,180>
+                  scale <0,3,0>
+                  scale 4.5
+                  translate <345,70,225>
+}  
+
+object{
+         Closet	
+                  rotate <0,90,0>
+                  scale <20,40,20>
+                  translate <380,60,160>
+                            finish{    
+                            roughness 0.75
+                            specular .35
+                               }
+}                          
+
+object{
+         Lamp
+                  scale <6,18,7>
+                  translate <210,17,335> 
+}
+
+
+object{   //flute
+         Flute   
+                  scale 9
+                  rotate <0,0,90> 
+                  translate <137,75,352>   
+}
+
+object{
+         statueStand
+                  scale 20
+                  translate <270,20,45>
+}  
+
+object{
+         statue
+                  scale 3
+                  translate <293,110,80> 
+                  finish{ambient 0.8}
+}  
+
+object{                               //Mesh
+         bookCollection
+                  rotate <0,0,90>
+                  scale 8.5
+                  translate <75,90,140>    
+}
+
+object{
+         Laptop 
+         scale 21
+         translate <115,52,314>
+}  
+
+object{
+         chalGame  
+         rotate <0,90,0>
+         scale 15
+         translate<33,23,160>
+}
+
+
+
+
+
+
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+               
+               
+               
+               
+               
+               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
